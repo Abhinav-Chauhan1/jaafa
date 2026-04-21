@@ -243,99 +243,69 @@ prevBtn.addEventListener('click', () => {
 
 window.addEventListener('resize', updateCatalogSlider);
 
-// Steps Section Logic — Cinematic Full-Bleed with GSAP clip-path wipe
+// Steps Section Logic
 const stepData = {
     Research: {
         text: "We begin by analyzing the site and client needs, ensuring every project is grounded in purpose and context.",
-        img: "step_research_1.png"
+        img1: "step_research_1.png",
+        img2: "step_research_2.png"
     },
     Concept: {
         text: "Developing the initial architectural vision, merging aesthetics with functional living requirements.",
-        img: "step_concept_1.png"
+        img1: "step_concept_1.png",
+        img2: "step_concept_2.png"
     },
     Form: {
         text: "Refining the structural shape and volumes to achieve a perfect balance between art and utility.",
-        img: "step_form_1.png"
+        img1: "step_form_1.png",
+        img2: "step_form_2.png"
     },
     Visuals: {
         text: "Visualization translates ideas into clear, realistic visuals. It helps to understand space, proportions, and atmosphere before implementation.",
-        img: "step_visuals_1.png"
+        img1: "step_visuals_1.png",
+        img2: "step_visuals_2.png"
     },
     Completion: {
         text: "Bringing the vision to life with meticulous attention to detail and high-quality materials.",
-        img: "step_completion_1.png"
+        img1: "step_completion_1.png",
+        img2: "step_completion_2.png"
     }
 };
 
 const stepButtons = document.querySelectorAll('.step-btn');
 const stepDescription = document.querySelector('#step-description');
-const stepImgCurrent = document.querySelector('#step-img-current');
-const stepImgNext = document.querySelector('#step-img-next');
-
-let stepsAnimating = false;
+const stepImg1 = document.querySelector('#step-img-1');
+const stepImg2 = document.querySelector('#step-img-2');
 
 stepButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        if (stepsAnimating) return;
-        const activeBtn = document.querySelector('.step-btn.active');
-        if (activeBtn === btn) return;
-
-        stepsAnimating = true;
-
-        // Update active pill
+        // Update active class
         stepButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
+        // Update content with GSAP fade
         const data = stepData[btn.dataset.step];
 
-        // Preload next image into the "next" layer
-        const nextImg = stepImgNext.querySelector('img');
-        nextImg.src = data.img;
+        // Timeline for synchronized transition
+        const tl = gsap.timeline();
 
-        // Reset next layer to start position (right side hidden)
-        gsap.set(stepImgNext, { clipPath: 'inset(0 0 0 100%)' });
-
-        const tl = gsap.timeline({
-            onComplete: () => {
-                // Swap: promote next to current
-                const currentImg = stepImgCurrent.querySelector('img');
-                currentImg.src = data.img;
-                gsap.set(stepImgCurrent, { clipPath: 'inset(0 0% 0 0)' });
-                gsap.set(stepImgNext, { clipPath: 'inset(0 0 0 100%)' });
-                stepsAnimating = false;
-            }
-        });
-
-        // Current image wipes OUT to the right
-        tl.to(stepImgCurrent, {
-            clipPath: 'inset(0 100% 0 0)',
-            duration: 0.5,
-            ease: 'power2.in'
-        }, 0);
-
-        // Next image wipes IN from the right
-        tl.to(stepImgNext, {
-            clipPath: 'inset(0 0% 0 0)',
-            duration: 0.5,
-            ease: 'power2.out'
-        }, 0);
-
-        // Description text fades out then in
-        tl.to(stepDescription, {
+        tl.to([stepDescription, "#step-img-1", "#step-img-2"], {
             opacity: 0,
             y: 10,
-            duration: 0.25,
-            ease: 'power2.in'
-        }, 0);
-
-        tl.call(() => { stepDescription.textContent = data.text; }, null, 0.3);
-
-        tl.to(stepDescription, {
-            opacity: 1,
-            y: 0,
             duration: 0.3,
-            ease: 'power2.out'
-        }, 0.3);
+            onComplete: () => {
+                stepDescription.textContent = data.text;
+                stepImg1.src = data.img1;
+                stepImg2.src = data.img2;
+
+                gsap.to([stepDescription, "#step-img-1", "#step-img-2"], {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.3,
+                    stagger: 0.1
+                });
+            }
+        });
     });
 });
 
