@@ -243,71 +243,143 @@ prevBtn.addEventListener('click', () => {
 
 window.addEventListener('resize', updateCatalogSlider);
 
-// Steps Section Logic
-const stepData = {
-    Research: {
-        text: "We begin by analyzing the site and client needs, ensuring every project is grounded in purpose and context.",
-        img1: "step_research_1.png",
-        img2: "step_research_2.png"
+// Steps Section — Editorial Redesign
+const steps = [
+    {
+        number: "01",
+        label: "Research",
+        title: "Site & Client Analysis",
+        description: "We begin by analyzing the site and client needs, ensuring every project is grounded in purpose and context.",
+        images: ["Jaffa Group Portfolo/Glenwild/hero.jpg", "Jaffa Group Portfolo/Glenwild/r-1-1024x797.jpg"]
     },
-    Concept: {
-        text: "Developing the initial architectural vision, merging aesthetics with functional living requirements.",
-        img1: "step_concept_1.png",
-        img2: "step_concept_2.png"
+    {
+        number: "02",
+        label: "Concept",
+        title: "Architectural Vision",
+        description: "Developing the initial architectural vision, merging aesthetics with functional living requirements.",
+        images: ["Jaffa Group Portfolo/Quarry Mountain/hero.jpg", "Jaffa Group Portfolo/Quarry Mountain/n-5-1024x683.jpg"]
     },
-    Form: {
-        text: "Refining the structural shape and volumes to achieve a perfect balance between art and utility.",
-        img1: "step_form_1.png",
-        img2: "step_form_2.png"
+    {
+        number: "03",
+        label: "Form",
+        title: "Structure & Volume",
+        description: "Refining the structural shape and volumes to achieve a perfect balance between art and utility.",
+        images: ["Jaffa Group Portfolo/White Pine Canyon I/hero.jpg", "Jaffa Group Portfolo/White Pine Canyon I/172whitePineCanyon01.jpg"]
     },
-    Visuals: {
-        text: "Visualization translates ideas into clear, realistic visuals. It helps to understand space, proportions, and atmosphere before implementation.",
-        img1: "step_visuals_1.png",
-        img2: "step_visuals_2.png"
+    {
+        number: "04",
+        label: "Visuals",
+        title: "Realistic Visualization",
+        description: "Visualization translates ideas into clear, realistic visuals. It helps to understand space, proportions, and atmosphere before implementation.",
+        images: ["Jaffa Group Portfolo/Deer Valley/Jaffa Group-1.jpg", "Jaffa Group Portfolo/Deer Valley/Jaffa Group-5.jpg"]
     },
-    Completion: {
-        text: "Bringing the vision to life with meticulous attention to detail and high-quality materials.",
-        img1: "step_completion_1.png",
-        img2: "step_completion_2.png"
+    {
+        number: "05",
+        label: "Completion",
+        title: "Build & Delivery",
+        description: "Bringing the vision to life with meticulous attention to detail and high-quality materials.",
+        images: ["Jaffa Group Portfolo/Aerie Drive/hero.jpg", "Jaffa Group Portfolo/Aerie Drive/974aerieDrive01.jpg"]
     }
-};
+];
 
-const stepButtons = document.querySelectorAll('.step-btn');
-const stepDescription = document.querySelector('#step-description');
-const stepImg1 = document.querySelector('#step-img-1');
-const stepImg2 = document.querySelector('#step-img-2');
+(function initSteps() {
+    const tabs        = document.querySelectorAll('.step-tab');
+    const activeImg   = document.querySelector('.step-image--active');
+    const incomingImg = document.querySelector('.step-image--incoming');
+    const infoNum     = document.getElementById('steps-info-num');
+    const infoTitle   = document.getElementById('steps-info-title');
+    const infoDesc    = document.getElementById('steps-info-desc');
+    const infoCurrent = document.getElementById('steps-info-current');
+    const progressFill = document.getElementById('steps-progress-fill');
+    const prevBtn     = document.getElementById('steps-info-prev');
+    const nextBtn     = document.getElementById('steps-info-next');
 
-stepButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Update active class
-        stepButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    if (!tabs.length || !activeImg) return;
 
-        // Update content with GSAP fade
-        const data = stepData[btn.dataset.step];
+    let current = 0;
+    let animating = false;
 
-        // Timeline for synchronized transition
-        const tl = gsap.timeline();
+    function updateProgress(idx) {
+        const pct = ((idx + 1) / steps.length) * 100;
+        if (progressFill) progressFill.style.width = pct + '%';
+    }
 
-        tl.to([stepDescription, "#step-img-1", "#step-img-2"], {
-            opacity: 0,
-            y: 10,
-            duration: 0.3,
+    function updateNavBtns(idx) {
+        if (prevBtn) prevBtn.disabled = idx === 0;
+        if (nextBtn) nextBtn.disabled = idx === steps.length - 1;
+    }
+
+    function switchStep(newIdx) {
+        if (animating || newIdx === current) return;
+        animating = true;
+
+        const step = steps[newIdx];
+
+        // Update tabs
+        tabs.forEach((t, i) => t.classList.toggle('active', i === newIdx));
+        updateProgress(newIdx);
+        updateNavBtns(newIdx);
+
+        // Prep incoming image
+        incomingImg.src = step.images[0];
+        incomingImg.alt = step.label;
+        gsap.set(incomingImg, { clipPath: 'inset(0 100% 0 0)', opacity: 1 });
+
+        const tl = gsap.timeline({
             onComplete: () => {
-                stepDescription.textContent = data.text;
-                stepImg1.src = data.img1;
-                stepImg2.src = data.img2;
-
-                gsap.to([stepDescription, "#step-img-1", "#step-img-2"], {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.3,
-                    stagger: 0.1
-                });
+                activeImg.src = incomingImg.src;
+                activeImg.alt = incomingImg.alt;
+                gsap.set(activeImg, { opacity: 1 });
+                gsap.set(incomingImg, { clipPath: 'inset(0 100% 0 0)' });
+                current = newIdx;
+                animating = false;
             }
         });
+
+        // Fade out card text
+        tl.to([infoNum, infoTitle, infoDesc], {
+            opacity: 0, y: -16,
+            duration: 0.25, stagger: 0.04, ease: 'power2.in'
+        });
+
+        // Fade out active image simultaneously
+        tl.to(activeImg, { opacity: 0, duration: 0.3 }, '<');
+
+        // Update DOM text at midpoint
+        tl.add(() => {
+            infoNum.textContent     = step.number;
+            infoTitle.textContent   = step.title;
+            infoDesc.textContent    = step.description;
+            if (infoCurrent) infoCurrent.textContent = newIdx + 1;
+        });
+
+        // Wipe in new image
+        tl.to(incomingImg, {
+            clipPath: 'inset(0 0% 0 0)',
+            duration: 0.9, ease: 'power3.inOut'
+        });
+
+        // Fade in card text with stagger
+        tl.fromTo([infoNum, infoTitle, infoDesc],
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out' },
+            '-=0.45'
+        );
+    }
+
+    // Tab clicks
+    tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => switchStep(i));
     });
-});
+
+    // Prev / Next buttons
+    if (prevBtn) prevBtn.addEventListener('click', () => switchStep(current - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => switchStep(current + 1));
+
+    // Init state
+    updateProgress(0);
+    updateNavBtns(0);
+})();
 
 // --- Project Showcase Animations (Desktop only) ---
 // 1. Entrance Staggered Slide

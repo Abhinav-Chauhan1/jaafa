@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Outfit:wght@100;200;300;400;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@100;200;300;400;500;600&family=Outfit:wght@100;200;300;400;600;700&display=swap"
         rel="stylesheet">
 
     <!-- CSS -->
@@ -241,46 +241,90 @@
 
     <!-- Steps Section -->
     <section class="steps-section" id="steps">
-        <div class="steps-container" data-aos="fade-up">
-            <div class="steps-header">
-                <div class="sidebar-header">
-                    <span class="section-number">03/</span>
-                    <span class="section-title">Steps</span>
+        <div class="steps-container">
+
+            <!-- Top row: label + headline + CTA -->
+            <div class="steps-top-row">
+                <div class="steps-top-left">
+                    <div class="sidebar-header">
+                        <span class="section-number">03/</span>
+                        <span class="section-title">Steps</span>
+                    </div>
+                    <h2 class="steps-headline">
+                        Create <span class="dim">your own</span><br>
+                        house <span class="dim">right now</span>
+                    </h2>
                 </div>
-                <h2 class="steps-headline">
-                    Create <span class="dim">your own</span> <br>
-                    house <span class="dim">right now</span>
-                </h2>
+                <div class="steps-top-right">
+                    <p class="steps-intro-text">Every great home begins with a process. Five deliberate stages — from first conversation to final key.</p>
+                    <a href="#contact" class="steps-cta-link">Start your project &rarr;</a>
+                </div>
             </div>
 
-            <div class="steps-nav-bar">
-                <div class="step-btn active" data-step="Research">Research</div>
-                <span class="step-arrow">&rsaquo;</span>
-                <div class="step-btn" data-step="Concept">Concept</div>
-                <span class="step-arrow">&rsaquo;</span>
-                <div class="step-btn" data-step="Form">Form</div>
-                <span class="step-arrow">&rsaquo;</span>
-                <div class="step-btn" data-step="Visuals">Visuals</div>
-                <span class="step-arrow">&rsaquo;</span>
-                <div class="step-btn" data-step="Completion">Completion</div>
+            <!-- Step tabs as editorial timeline -->
+            <div class="steps-timeline">
+                <div class="steps-timeline-track">
+                    <button class="step-tab active" data-step="0">
+                        <span class="step-tab-num">01</span>
+                        <span class="step-tab-label">Research</span>
+                    </button>
+                    <div class="step-tab-divider"></div>
+                    <button class="step-tab" data-step="1">
+                        <span class="step-tab-num">02</span>
+                        <span class="step-tab-label">Concept</span>
+                    </button>
+                    <div class="step-tab-divider"></div>
+                    <button class="step-tab" data-step="2">
+                        <span class="step-tab-num">03</span>
+                        <span class="step-tab-label">Form</span>
+                    </button>
+                    <div class="step-tab-divider"></div>
+                    <button class="step-tab" data-step="3">
+                        <span class="step-tab-num">04</span>
+                        <span class="step-tab-label">Visuals</span>
+                    </button>
+                    <div class="step-tab-divider"></div>
+                    <button class="step-tab" data-step="4">
+                        <span class="step-tab-num">05</span>
+                        <span class="step-tab-label">Completion</span>
+                    </button>
+                </div>
+                <!-- Progress bar -->
+                <div class="steps-progress-bar">
+                    <div class="steps-progress-fill" id="steps-progress-fill"></div>
+                </div>
             </div>
 
-            <div class="steps-content-grid">
-                <div class="steps-left">
-                    <p class="steps-desc" id="step-description">
-                        We begin by analyzing the site and client needs, ensuring every project is grounded in purpose
-                        and context.
-                    </p>
+            <!-- Main content: image + info card -->
+            <div class="steps-stage">
+                <!-- Full-bleed image area -->
+                <div class="steps-stage-image" id="steps-stage-image">
+                    <img class="step-image step-image--active" src="Jaffa Group Portfolo/Glenwild/hero.jpg" alt="Research">
+                    <img class="step-image step-image--incoming" src="" alt="" aria-hidden="true">
+                    <!-- Gradient overlay -->
+                    <div class="steps-stage-gradient"></div>
                 </div>
-                <div class="steps-right">
-                    <div class="step-visual-card">
-                        <img src="step_research_1.png" alt="Research Model 1" id="step-img-1">
-                    </div>
-                    <div class="step-visual-card">
-                        <img src="step_research_2.png" alt="Research Model 2" id="step-img-2">
+
+                <!-- Floating info card -->
+                <div class="steps-info-card" id="steps-info-card">
+                    <div class="steps-info-card-inner">
+                        <div class="steps-info-top">
+                            <span class="steps-info-num" id="steps-info-num">01</span>
+                            <span class="steps-info-tag">Process</span>
+                        </div>
+                        <h3 class="steps-info-title" id="steps-info-title">Site &amp; Client Analysis</h3>
+                        <p class="steps-info-desc" id="steps-info-desc">We begin by analyzing the site and client needs, ensuring every project is grounded in purpose and context.</p>
+                        <div class="steps-info-footer">
+                            <span class="steps-info-of">Step <span id="steps-info-current">1</span> of 5</span>
+                            <div class="steps-info-nav">
+                                <button class="steps-info-prev" id="steps-info-prev" aria-label="Previous step">&larr;</button>
+                                <button class="steps-info-next" id="steps-info-next" aria-label="Next step">&rarr;</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
