@@ -53,16 +53,37 @@ const heroData = {
     frame: 0
 };
 
-// Preload images
-for (let i = 0; i < frameCount; i++) {
-    const img = new Image();
-    img.src = currentFrame(i);
-    images.push(img);
+// Lazy load images in batches based on scroll progress
+let loadedFrames = 0;
+const batchSize = 30; // Load 30 frames at a time
+
+function loadImageBatch(startIndex, endIndex) {
+    for (let i = startIndex; i < Math.min(endIndex, frameCount); i++) {
+        if (!images[i]) {
+            const img = new Image();
+            img.src = currentFrame(i);
+            images[i] = img;
+        }
+    }
+    loadedFrames = Math.min(endIndex, frameCount);
 }
+
+// Preload first batch immediately
+loadImageBatch(0, batchSize);
+
+// Load first frame when ready
+images[0].onload = render;
 
 function render() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     const img = images[heroData.frame];
+    
+    // Load next batch if we're getting close to the end of loaded frames
+    const currentFrame = Math.floor(heroData.frame);
+    if (currentFrame > loadedFrames - 10 && loadedFrames < frameCount) {
+        loadImageBatch(loadedFrames, loadedFrames + batchSize);
+    }
+    
     if (img && img.complete) {
         // Center-cover logic for canvas
         const imgRatio = img.width / img.height;
@@ -85,18 +106,12 @@ function render() {
     }
 }
 
-// Ensure first frame renders
-images[0].onload = render;
-
 // Resize handling
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     render();
 });
-
-// Scroll Animation
-gsap.registerPlugin(ScrollTrigger);
 
 // Scroll Animation
 gsap.registerPlugin(ScrollTrigger);
@@ -558,4 +573,31 @@ if (hamburgerBtn && mobileNavOverlay) {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll(); // set initial position
+})();
+
+// ── YouTube Facade: Load iframe only on click ──────────────────────────
+(function () {
+    const facade = document.getElementById('youtube-facade');
+    if (!facade) return;
+
+    const poster = facade.querySelector('.youtube-facade-poster');
+    if (!poster) return;
+
+    poster.addEventListener('click', function() {
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/Mebkh22_y9k?autoplay=1&mute=1&loop=1&playlist=Mebkh22_y9k';
+        iframe.title = 'Tour This Ultra-Luxury Custom Home in Park City | Crafted by Jaffa Group';
+        iframe.frameBorder = '0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+        iframe.allowFullscreen = true;
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        
+        facade.innerHTML = '';
+        facade.appendChild(iframe);
+    });
 })();

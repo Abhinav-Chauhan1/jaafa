@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -33,8 +33,32 @@
             <div class="nav-cta">
                 <a href="index.html#contact" class="nav-cta-btn">Contact Us</a>
             </div>
+
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+        <div class="mobile-nav-inner">
+            <div class="mobile-nav-header">
+                <span class="section-number">02/</span>
+                <span class="section-title">Catalog</span>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="cottages.html" class="mobile-nav-link">Cottages</a></li>
+                <li><a href="townhouses.html" class="mobile-nav-link">Townhouses</a></li>
+                <li><a href="settlements.html" class="mobile-nav-link">Settlements</a></li>
+                <li><a href="investing-spaces.html" class="mobile-nav-link">Investing spaces</a></li>
+            </ul>
+            <a href="index.html#contact" class="mobile-nav-cta">Contact Us &rarr;</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="project-hero">
@@ -84,10 +108,11 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="project-detail.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="project-detail.js" defer></script>
+    <script src="mobile-nav.js" defer></script>
 </body>
 </html>
 
