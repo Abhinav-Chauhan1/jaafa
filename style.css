@@ -91,6 +91,11 @@ body {
     letter-spacing: 2px;
     text-decoration: none;
     color: var(--text-main);
+    cursor: pointer;
+}
+
+.logo:hover {
+    opacity: 0.8;
 }
 
 .logo-text {
@@ -125,7 +130,8 @@ body {
     color: #e6b905;
 }
 
-.nav-cta a {
+.nav-cta a,
+.nav-cta-btn {
     padding: 0.8rem 1.5rem;
     border: 1px solid var(--glass-border);
     border-radius: 50px;
@@ -135,9 +141,11 @@ body {
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    display: inline-block;
 }
 
-.nav-cta a:hover {
+.nav-cta a:hover,
+.nav-cta-btn:hover {
     background: rgba(255, 255, 255, 0.1);
     border-color: var(--text-main);
 }
