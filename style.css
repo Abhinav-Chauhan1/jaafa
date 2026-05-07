@@ -52,15 +52,8 @@ body {
     font-family: var(--font-body);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    width: 100%;
-    max-width: 100vw;
 }
 
-html {
-    overflow-x: hidden;
-    width: 100%;
-    max-width: 100vw;
-}
 
 /* Navbar */
 .navbar {
@@ -1703,7 +1696,6 @@ html {
 @media (max-width: 768px) {
     .footer {
         padding: 0 !important;
-        overflow-x: clip;
     }
 
     .footer-wordmark-wrap {

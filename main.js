@@ -15,6 +15,15 @@ function raf(time) {
 
 requestAnimationFrame(raf);
 
+// Integrate Lenis with GSAP ScrollTrigger
+lenis.on('scroll', ScrollTrigger.update);
+
+gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+});
+
+gsap.ticker.lagSmoothing(0);
+
 // Initialize AOS (Animate On Scroll)
 AOS.init({
     duration: 600,
