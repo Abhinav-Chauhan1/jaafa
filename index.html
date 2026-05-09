@@ -60,13 +60,19 @@
     </nav>
 
     <!-- Mobile Nav Overlay -->
-            <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
         <div class="mobile-nav-inner">
+            <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close navigation menu">
+                <span></span>
+                <span></span>
+            </button>
             <div class="mobile-nav-header">
-                <span class="section-number">02/</span>
-                <span class="section-title">Catalog</span>
+                <span class="section-number">00/</span>
+                <span class="section-title">Menu</span>
             </div>
             <ul class="mobile-nav-links">
+                <li><a href="index.html#about" class="mobile-nav-link">About</a></li>
+                <li><a href="catalog.html" class="mobile-nav-link">Catalog</a></li>
                 <li><a href="cottages.html" class="mobile-nav-link">Cottages</a></li>
                 <li><a href="townhouses.html" class="mobile-nav-link">Townhouses</a></li>
                 <li><a href="settlements.html" class="mobile-nav-link">Settlements</a></li>
@@ -711,6 +717,7 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script src="main.js" defer></script>
+    <script src="mobile-nav.js" defer></script>
 </body>
 
 </html>

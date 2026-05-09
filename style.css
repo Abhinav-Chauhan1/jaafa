@@ -1015,12 +1015,28 @@ body {
 
     .about-container {
         grid-template-columns: 1fr;
-        gap: 3rem;
+        grid-template-rows: auto auto auto auto;
+        gap: 2rem;
     }
 
-    .about-heading-right,
+    .about-top-left {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .about-heading-right {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .about-bottom-left {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
     .about-bottom-right {
         grid-column: 1;
+        grid-row: 4;
     }
 
     .hero-subheading {
@@ -3130,6 +3146,46 @@ body {
     justify-content: flex-start;
     align-items: flex-start;
     overflow-y: auto;
+    position: relative;
+}
+
+.mobile-nav-close {
+    position: absolute;
+    top: clamp(2rem, 5vh, 3rem);
+    right: clamp(2rem, 5vw, 4rem);
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+}
+
+.mobile-nav-close span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: #000000;
+    transition: all 0.3s ease;
+    position: absolute;
+}
+
+.mobile-nav-close span:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+.mobile-nav-close span:nth-child(2) {
+    transform: rotate(-45deg);
+}
+
+.mobile-nav-close:hover span {
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .mobile-nav-header {
@@ -3313,20 +3369,18 @@ body {
     /* About section */
     .about-section {
         padding: 3rem 1.5rem;
-        text-align: center;
     }
 
     .about-bottom-left {
         max-width: 100%;
-        text-align: left;
     }
 
     .about-bottom-right {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .btn-more {
-        margin: 0 auto;
+        margin: 0;
     }
 
     /* Catalog */

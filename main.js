@@ -527,28 +527,7 @@ if (projectForm) {
 }
 
 // --- Hamburger Menu Toggle ---
-const hamburgerBtn = document.getElementById('hamburger-btn');
-const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
-
-if (hamburgerBtn && mobileNavOverlay) {
-    hamburgerBtn.addEventListener('click', () => {
-        const isOpen = hamburgerBtn.classList.toggle('open');
-        mobileNavOverlay.classList.toggle('open', isOpen);
-        hamburgerBtn.setAttribute('aria-expanded', isOpen);
-        // Prevent background scroll when menu is open
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-
-    // Close menu when a link is clicked
-    mobileNavOverlay.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburgerBtn.classList.remove('open');
-            mobileNavOverlay.classList.remove('open');
-            hamburgerBtn.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
-        });
-    });
-}
+// Moved to mobile-nav.js for better organization and reusability
 
 
 // ── Footer wordmark: fade-in + parallax background ──────────────────────────
