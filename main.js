@@ -610,3 +610,144 @@ if (hamburgerBtn && mobileNavOverlay) {
         facade.appendChild(iframe);
     });
 })();
+
+// ── Circular Testimonials Carousel ──────────────────────────────────────
+(function () {
+    const testimonials = [
+        {
+            quote: "From the initial research to completion, the process was professional and inspiring. They don't just build houses; they create environments.",
+            name: "Elena Rodriguez",
+            designation: "Architectural Critic",
+            image: "Hero Photos-20260418T055411Z-3-001/Hero Photos/showcase 3.webp"
+        },
+        {
+            quote: "The best architectural firm I've worked with. Their ability to balance function and visual calm is truly world-class.",
+            name: "David Thompson",
+            designation: "Developer",
+            image: "Hero Photos-20260418T055411Z-3-001/Hero Photos/showcase 4 .webp"
+        },
+        {
+            quote: "Working with Jaffa Group transformed our vision into reality. Every detail was meticulously crafted with precision and care.",
+            name: "Sarah Jenkins",
+            designation: "Homeowner",
+            image: "Hero Photos-20260418T055411Z-3-001/Hero Photos/showcase 7.webp"
+        },
+        {
+            quote: "Their innovative approach to sustainable luxury design sets them apart. A team that truly understands modern living.",
+            name: "Michael Chen",
+            designation: "Real Estate Investor",
+            image: "Hero Photos-20260418T055411Z-3-001/Hero Photos/showcase 2.webp"
+        }
+    ];
+
+    const cards = document.querySelectorAll('.ct-card');
+    const dots = document.querySelectorAll('.ct-dot');
+    const prevBtn = document.querySelector('.ct-prev');
+    const nextBtn = document.querySelector('.ct-next');
+    const quoteEl = document.getElementById('ct-quote');
+    const nameEl = document.getElementById('ct-name');
+    const designationEl = document.getElementById('ct-designation');
+    const textContainer = document.querySelector('.ct-text-container');
+
+    if (!cards.length || !quoteEl) return;
+
+    let currentIndex = 2; // Start with third item active (index 2)
+    let isAnimating = false;
+
+    function updatePositions() {
+        cards.forEach((card, i) => {
+            card.classList.remove('active', 'left', 'right', 'hidden');
+            
+            const relativePos = (i - currentIndex + testimonials.length) % testimonials.length;
+            
+            if (relativePos === 0) {
+                card.classList.add('active');
+            } else if (relativePos === testimonials.length - 1) {
+                card.classList.add('left');
+            } else if (relativePos === 1) {
+                card.classList.add('right');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        // Update dots
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+        });
+    }
+
+    function updateContent(index) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Fade out
+        gsap.to(textContainer, {
+            opacity: 0,
+            y: 20,
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: () => {
+                // Update content
+                quoteEl.textContent = testimonials[index].quote;
+                nameEl.textContent = testimonials[index].name;
+                designationEl.textContent = testimonials[index].designation;
+
+                // Fade in
+                gsap.to(textContainer, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        isAnimating = false;
+                    }
+                });
+            }
+        });
+    }
+
+    function goToSlide(index) {
+        if (isAnimating || index === currentIndex) return;
+        currentIndex = index;
+        updatePositions();
+        updateContent(index);
+    }
+
+    function nextSlide() {
+        const nextIndex = (currentIndex + 1) % testimonials.length;
+        goToSlide(nextIndex);
+    }
+
+    function prevSlide() {
+        const prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+        goToSlide(prevIndex);
+    }
+
+    // Event listeners
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => goToSlide(i));
+    });
+
+    // Auto-rotate every 5 seconds
+    let autoRotate = setInterval(nextSlide, 5000);
+
+    // Pause on hover
+    const ctRoot = document.querySelector('.ct-root');
+    if (ctRoot) {
+        ctRoot.addEventListener('mouseenter', () => {
+            clearInterval(autoRotate);
+        });
+
+        ctRoot.addEventListener('mouseleave', () => {
+            autoRotate = setInterval(nextSlide, 5000);
+        });
+    }
+
+    // Initialize
+    updatePositions();
+})();
+
